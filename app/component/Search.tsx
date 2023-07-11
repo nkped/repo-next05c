@@ -21,7 +21,7 @@ export default function Search() {
             type='text' 
             placeholder='search' 
             value={search} 
-            onChange={(e) => e.target.value}
+            onChange={(e) => setSearch(e.target.value)}
             />
         <button>{'->'} </button>
     </form>
