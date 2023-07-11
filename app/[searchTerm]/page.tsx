@@ -1,5 +1,6 @@
 import React from 'react'
 import getWikiResults from '@/lib/getWikiResults'
+import Item from './components/Item'
 
 type Props = {
     params: {
@@ -11,7 +12,7 @@ type Props = {
 export async function generateMetadata({params: {searchTerm }}: Props) {
     const wikiData: Promise<SearchResult> = getWikiResults(searchTerm)
     const data = await wikiData
-    const displayTerm = searchTerm.replaceAll('%20', '')
+    const displayTerm = searchTerm.replaceAll('%20', ' ')
 
     if (!data?.query?.pages) {
     return {
@@ -24,7 +25,7 @@ export async function generateMetadata({params: {searchTerm }}: Props) {
         }
 }
 
-
+//JSON.stringify(result)
 
 export default async function SearchResults({params: { searchTerm }}: Props) {
     const wikiData: Promise<SearchResult> = getWikiResults(searchTerm)
@@ -35,10 +36,7 @@ export default async function SearchResults({params: { searchTerm }}: Props) {
         <main>
             {results
             ? Object.values(results).map((result) => {
-                return <div>
-                            <h2>{result.title}</h2>
-                            <p>{result.extract}</p>
-                        </div>
+                return <Item key={result.pageid} result={result} />
             })
             : <h2>{`${searchTerm} not found`}</h2>
             }
